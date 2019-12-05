@@ -1,0 +1,23 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: https://openfaas.services.west.nonprod.contoso.com
+functions:
+  faas-gpoacl-create:
+    lang: powershell-http
+    handler: ./faas-gpoacl-create
+    image: container-registry01.nonprod.contoso.com/keystone/faas-gpoacl-create:latest
+    read_timeout: 30s
+    write_timeout: 30s 
+    secrets:
+      - ldappasswords
+    environment:
+      read_timeout: 30s
+      write_timeout: 30s
+      exec_timeout: 60s
+      write_debug: true
+      NONPRODLDAPBINDDN: contosodev\svcalinuxdevadmin
+      NONPRODBASEDN: ou=LinuxServers,dc=contosodev,dc=local
+      PRODSERVICEACCOUNT: contoso\svcalinuxadmin
+      PRODBASEDN: ou=LinuxServers,dc=contoso,dc=com
+      PRODPSREMOTESERVER: "mgtsac-vcwn001.contoso.com"
